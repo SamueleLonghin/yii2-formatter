@@ -1,0 +1,27 @@
+{
+  "name": "samuelelonghin/yii2-formatter",
+  "description": "new Yii2 Formatter",
+  "type": "yii2-extension",
+  "version": "1.0.2",
+  "keywords": [
+    "yii2",
+    "extension",
+    "formatter",
+    "db"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Samuele Longhin",
+      "email": "longhin.samuele@outlook.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.0",
+  },
+  "autoload": {
+    "psr-4": {
+      "samuelelonghin\\formatter\\": "src"
+    }
+  }
+}
