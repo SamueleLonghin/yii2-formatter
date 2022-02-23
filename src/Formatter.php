@@ -14,6 +14,13 @@ class Formatter extends \yii\i18n\Formatter
 	public $formDateFormat;
 	public $formTimeFormat;
 
+	protected function swipeTimeZone()
+	{
+		$temp = $this->timeZone;
+		$this->timeZone = $this->defaultTimeZone;
+		$this->defaultTimeZone = $temp;
+	}
+
 	/**
 	 * @param $value
 	 * @return string
@@ -21,7 +28,11 @@ class Formatter extends \yii\i18n\Formatter
 	 */
 	public function asDbDateTime($value)
 	{
-		return $this->asDateTime($value, $this->dbDateTimeFormat);
+		$this->swipeTimeZone();
+		$res = $this->asDateTime($value, $this->dbDateTimeFormat);
+		$this->swipeTimeZone();
+
+		return $res;
 	}
 
 	/**
@@ -41,7 +52,11 @@ class Formatter extends \yii\i18n\Formatter
 	 */
 	public function asDbDate($value)
 	{
-		return $this->asDate($value, $this->dbDateFormat);
+		$this->swipeTimeZone();
+		$res = $this->asDate($value, $this->dbDateFormat);
+		$this->swipeTimeZone();
+
+		return $res;
 	}
 
 	/**
@@ -61,7 +76,11 @@ class Formatter extends \yii\i18n\Formatter
 	 */
 	public function asDbTime($value)
 	{
-		return $this->asTime($value, $this->dbTimeFormat);
+		$this->swipeTimeZone();
+		$res = $this->asTime($value, $this->dbTimeFormat);
+		$this->swipeTimeZone();
+
+		return $res;
 	}
 
 	/**
