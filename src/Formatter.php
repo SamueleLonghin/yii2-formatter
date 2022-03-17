@@ -2,13 +2,12 @@
 
 namespace samuelelonghin\formatter;
 
-use app\models\ModelString;
+use samuelelonghin\db\ModelString;
 use samuelelonghin\db\ActiveRecord;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\bootstrap4\Html;
-use function Symfony\Component\String\s;
 
 class Formatter extends \yii\i18n\Formatter
 {
@@ -19,6 +18,8 @@ class Formatter extends \yii\i18n\Formatter
 	public $formDateTimeFormat;
 	public $formDateFormat;
 	public $formTimeFormat;
+	public $userPermission;
+	public $userClass;
 
 	protected function swipeTimeZone()
 	{
@@ -163,6 +164,23 @@ class Formatter extends \yii\i18n\Formatter
 		if ($value instanceof ModelString && $value instanceof ActiveRecord) {
 			$text = $this->asText($value->toString());
 			return Html::a($text, ['/' . $value::getController() . '/view', 'id' => $value->id]);
+		}
+		return null;
+	}
+
+	/**
+	 * @param $value
+	 * @return string|null
+	 */
+	public function asLinkIfCan($value): ?string
+	{
+		if ($value instanceof ModelString && $value instanceof ActiveRecord) {
+			$text = $this->asText($value->toString());
+			if (isset($this->userClass) && isset($this->userPermission)) {
+				if ($this->userClass::_can(get_class($value), $value->id, $this->userPermission))
+					return Html::a($text, [$value::getBaseUrl('view'), 'id' => $value->id]);
+				return $text;
+			}
 		}
 		return null;
 	}
