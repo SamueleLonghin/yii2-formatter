@@ -7,7 +7,7 @@ use samuelelonghin\db\ActiveRecord;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 class Formatter extends \yii\i18n\Formatter
 {
@@ -164,6 +164,13 @@ class Formatter extends \yii\i18n\Formatter
 		if ($value instanceof ModelString && $value instanceof ActiveRecord) {
 			$text = $this->asText($value->toString());
 			return Html::a($text, ['/' . $value::getController() . '/view', 'id' => $value->id]);
+		}
+		if(is_array($value)){
+			$out = '';
+			foreach($value as $item){
+				$out.= $this->asLink($item);
+			}
+			return $out;
 		}
 		return null;
 	}
