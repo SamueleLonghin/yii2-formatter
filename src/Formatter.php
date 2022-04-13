@@ -2,6 +2,8 @@
 
 namespace samuelelonghin\formatter;
 
+use rmrevin\yii\fontawesome\component\Icon;
+use rmrevin\yii\fontawesome\FA;
 use samuelelonghin\db\ModelString;
 use samuelelonghin\db\ActiveRecord;
 use Yii;
@@ -20,6 +22,7 @@ class Formatter extends \yii\i18n\Formatter
 	public $formTimeFormat;
 	public $userPermission;
 	public $userClass;
+	public $telPrefix = "";
 
 	protected function swipeTimeZone()
 	{
@@ -165,10 +168,10 @@ class Formatter extends \yii\i18n\Formatter
 			$text = $this->asText($value->toString());
 			return Html::a($text, ['/' . $value::getController() . '/view', 'id' => $value->id]);
 		}
-		if(is_array($value)){
+		if (is_array($value)) {
 			$out = '';
-			foreach($value as $item){
-				$out.= $this->asLink($item);
+			foreach ($value as $item) {
+				$out .= $this->asLink($item) . "\n";
 			}
 			return $out;
 		}
@@ -190,5 +193,26 @@ class Formatter extends \yii\i18n\Formatter
 			}
 		}
 		return null;
+	}
+
+
+	public function asTel($value): string
+	{
+		return Html::a($value, "tel:$value");
+	}
+
+	public function asTelephone($value): string
+	{
+		return $this->asTel($value) . ' ' . $this->asWhatsapp($value);
+	}
+
+	public function asWhatsapp($value): string
+	{
+		return Html::a(Html::tag('i', '', ['class' => 'fab fa-' . FA::_WHATSAPP]), "https://wa.me/{$this->telPrefix}{$value}");
+	}
+
+	public function asTextArea($value): string
+	{
+		return Html::tag('div', $value, ['style' => 'white-space: pre-line']);
 	}
 }
