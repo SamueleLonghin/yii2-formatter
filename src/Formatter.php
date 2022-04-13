@@ -208,6 +208,7 @@ class Formatter extends \yii\i18n\Formatter
 
 	public function asWhatsapp($value): string
 	{
+				$value = str_replace(' ', '', $value);
 		return Html::a(Html::tag('i', '', ['class' => 'fab fa-' . FA::_WHATSAPP]), "https://wa.me/{$this->telPrefix}{$value}");
 	}
 
