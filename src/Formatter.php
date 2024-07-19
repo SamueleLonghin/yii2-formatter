@@ -23,6 +23,8 @@ class Formatter extends \yii\i18n\Formatter
     public $userPermission;
     public $userClass;
     public $telPrefix = "";
+    public $listInSeparator = ",";
+    public $listOurSeparator = "<br>";
 
     protected function swipeTimeZone()
     {
@@ -220,5 +222,11 @@ class Formatter extends \yii\i18n\Formatter
             $value
         );
         return Html::tag('div', $value, ['style' => 'white-space: pre-line']);
+    }
+
+    public function asList($value): ?string
+    {
+        if (!$value) return null;
+        return str_replace($this->listInSeparator, $this->listOurSeparator, $value);
     }
 }
