@@ -224,7 +224,7 @@ class Formatter extends \yii\i18n\Formatter
         $value = preg_replace(
             '/(?:http[s]?:\/\/.)?(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/m',
             '<a href="$0" target="_blank"> $0 </a>',
-            $value
+            $value ?? ""
         );
         return Html::tag('div', $value, ['style' => 'white-space: pre-line']);
     }
